@@ -29,6 +29,7 @@ SOFTWARE.
 from ctypes import *
 
 from brender.vector import *
+from brender.material import *
 
 # vertex
 class vertex(Structure):
@@ -48,7 +49,7 @@ class face(Structure):
 	_fields_ = [
 		("vertices", c_ushort),
 		("smoothing", c_ushort),
-		("material", c_void_p),
+		("material", POINTER(material)),
 		("index", c_ubyte),
 		("red", c_ubyte),
 		("grn", c_ubyte),
