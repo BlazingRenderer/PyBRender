@@ -25,6 +25,9 @@ pixels = create_string_buffer(b'\xFF\x00\x00' * width * height)
 # allocate a pixelmap
 pm = Br.PixelmapAllocate(Br.PMT_RGB_888, width, height, pixels, Br.PMAF_NORMAL)
 
+# set identifier
+pm.contents.identifier = Br._cstr("test3")
+
 # save it
 Br.PixelmapSave("test3.pix", pm)
 
