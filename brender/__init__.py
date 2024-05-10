@@ -29,8 +29,10 @@ SOFTWARE.
 from ctypes import *
 
 from brender.vector import *
+from brender.matrix import *
 from brender.pixelmap import *
 from brender.model import *
+from brender.material import *
 
 ####################################################
 #
@@ -125,3 +127,32 @@ def ModelLoad(filename):
 	_BrLib.BrModelLoad.argtypes = [c_char_p]
 	_BrLib.BrModelLoad.restype = POINTER(model)
 	return _BrLib.BrModelLoad(CSTR(filename))
+
+####################################################
+#
+# materials
+#
+####################################################
+
+# allocate
+def MaterialAllocate(name):
+	_BrLib.BrMaterialAllocate.argtypes = [c_char_p]
+	_BrLib.BrMaterialAllocate.restype = POINTER(material)
+	return _BrLib.BrMaterialAllocate(CSTR(name))
+
+# free
+def MaterialFree(m):
+	_BrLib.BrMaterialFree.argtypes = [POINTER(material)]
+	_BrLib.BrMaterialFree(m)
+
+# save
+def MaterialSave(filename, m):
+	_BrLib.BrMaterialSave.argtypes = [c_char_p, POINTER(material)]
+	_BrLib.BrMaterialSave.restype = c_uint
+	return _BrLib.BrMaterialSave(CSTR(filename), m)
+
+# load
+def MaterialLoad(filename):
+	_BrLib.BrMaterialLoad.argtypes = [c_char_p]
+	_BrLib.BrMaterialLoad.restype = POINTER(material)
+	return _BrLib.BrMaterialLoad(CSTR(filename))

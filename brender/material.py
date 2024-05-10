@@ -26,31 +26,39 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-import os
-import brender as Br
+from ctypes import *
 
-# library name
-if os.name == "nt":
-	libname = "libbrender.dll"
-else:
-	libname = "libbrender.so"
+from brender.matrix import *
+from brender.pixelmap import *
 
-# make path absolute
-libname = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + libname
-
-# startup
-Br.Begin(libname)
-
-# allocate a model
-m = Br.ModelAllocate("cube", 8, 12)
-Br.ModelSave("test4.dat", m)
-Br.ModelFree(m)
-
-# load a material and pixelmap
-mat = Br.MaterialLoad("checkerboard32.mat")
-mat.contents.colour_map = Br.PixelmapLoad("checkerboard32.pix")
-Br.PixelmapFree(mat.contents.colour_map)
-Br.MaterialFree(mat)
-
-# shutdown
-Br.End()
+# material
+class material(Structure):
+	_fields_ = [
+		("_reserved", c_void_p),
+		("identifier", c_char_p),
+		("colour", c_uint),
+		("opacity", c_ubyte),
+		("ka", c_float),
+		("kd", c_float),
+		("ks", c_float),
+		("power", c_float),
+		("flags", c_uint),
+		("map_transform", matrix23),
+		("mode", c_ushort),
+		("index_base", c_ubyte),
+		("index_range", c_ubyte),
+		("colour_map", POINTER(pixelmap)),
+		("screendoor", POINTER(pixelmap)),
+		("index_shade", POINTER(pixelmap)),
+		("index_blend", POINTER(pixelmap)),
+		("index_fog", POINTER(pixelmap)),
+		("extra_surf", c_void_p),
+		("extra_prim", c_void_p),
+		("fog_min", c_float),
+		("fog_max", c_float),
+		("fog_colour", c_uint),
+		("subdivide_tolerance", c_int),
+		("depth_bias", c_float),
+		("user", c_void_p),
+		("stored", c_void_p)
+	]

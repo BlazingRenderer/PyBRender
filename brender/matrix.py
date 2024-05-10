@@ -26,31 +26,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-import os
-import brender as Br
+from ctypes import *
 
-# library name
-if os.name == "nt":
-	libname = "libbrender.dll"
-else:
-	libname = "libbrender.so"
+# matrix23
+class matrix23(Structure):
+	_fields_ = [("m", c_float * 3 * 2)]
 
-# make path absolute
-libname = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + libname
+# matrix34
+class matrix34(Structure):
+	_fields_ = [("m", c_float * 4 * 3)]
 
-# startup
-Br.Begin(libname)
-
-# allocate a model
-m = Br.ModelAllocate("cube", 8, 12)
-Br.ModelSave("test4.dat", m)
-Br.ModelFree(m)
-
-# load a material and pixelmap
-mat = Br.MaterialLoad("checkerboard32.mat")
-mat.contents.colour_map = Br.PixelmapLoad("checkerboard32.pix")
-Br.PixelmapFree(mat.contents.colour_map)
-Br.MaterialFree(mat)
-
-# shutdown
-Br.End()
+# matrix4
+class matrix4(Structure):
+	_fields_ = [("m", c_float * 4 * 4)]
