@@ -48,8 +48,10 @@ Br.ModelFree(m)
 
 # load a material and pixelmap
 mat = Br.MaterialLoad("checkerboard32.mat")
-mat.contents.colour_map = Br.PixelmapLoad("checkerboard32.pix")
-Br.PixelmapFree(mat.contents.colour_map)
+
+print(mat.contents.identifier)
+print(mat.contents.colour_map.contents.identifier)
+
 Br.MaterialFree(mat)
 
 # shutdown

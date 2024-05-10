@@ -63,6 +63,12 @@ def Begin(libname="brender"):
 	_BrLib = CDLL(libname)
 	_BrLib.BrV1dbBeginWrapper()
 
+	# set default findfailed hooks
+	_BrLib.BrMapFindHook(_BrLib.BrMapFindFailedLoad)
+	_BrLib.BrTableFindHook(_BrLib.BrTableFindFailedLoad)
+	_BrLib.BrModelFindHook(_BrLib.BrModelFindFailedLoad)
+	_BrLib.BrMaterialFindHook(_BrLib.BrMaterialFindFailedLoad)
+
 def End():
 	global _BrLib
 	_BrLib.BrV1dbEndWrapper()
