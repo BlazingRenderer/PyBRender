@@ -26,7 +26,7 @@ Br.Begin(lib)
 mdl = Br.ModelAllocate("cube", 8, 12)
 
 # do something with the created model here
-mdl.contents.identifier = Br.CSTR("cube")
+# you can access and modify the fields defined in brender/model.py
 
 # save to disk, then free
 Br.ModelSave("cube.dat", mdl)
