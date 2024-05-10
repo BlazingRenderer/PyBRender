@@ -32,31 +32,27 @@ from brender.vector import *
 from brender.pixelmap import *
 from brender.model import *
 
-###########################
+####################################################
 #
 # private
 #
-##########################
+####################################################
 
 _BrLib = None
 
-###########################
+####################################################
 #
 # utilities
 #
-##########################
+####################################################
 
 def CSTR(s): return c_char_p(s.encode('ascii'))
 
-###########################
-#
-# library functions
-#
-##########################
-
+####################################################
 #
 # startup/shutdown
 #
+####################################################
 
 def Begin(libname="brender"):
 	global _BrLib
@@ -70,11 +66,13 @@ def End():
 	_BrLib.BrV1dbEndWrapper()
 	_BrLib = None
 
+####################################################
 #
 # pixelmaps
 #
+####################################################
 
-# allocate pixelmap
+# allocate
 def PixelmapAllocate(pm_type, width, height, pixels, flags):
 	_BrLib.BrPixelmapAllocate.argtypes = [c_ubyte, c_int, c_int, c_void_p, c_int]
 	_BrLib.BrPixelmapAllocate.restype = c_void_p
@@ -83,17 +81,17 @@ def PixelmapAllocate(pm_type, width, height, pixels, flags):
 	pm = _BrLib.BrPixelmapAllocate(pm_type, width, height, pixels, flags)
 	return cast(pm, POINTER(pixelmap))
 
-# free pixelmap
+# free
 def PixelmapFree(pixelmap):
 	_BrLib.BrPixelmapFree.argtypes = [c_void_p]
 	_BrLib.BrPixelmapFree(pixelmap)
 
-# save pixelmap
+# save
 def PixelmapSave(filename, pixelmap):
 	_BrLib.BrPixelmapSave.argtypes = [c_char_p, c_void_p]
 	_BrLib.BrPixelmapSave(CSTR(filename), pixelmap)
 
-# load pixelmap
+# load
 def PixelmapLoad(filename):
 	_BrLib.BrPixelmapLoad.argtypes = [c_char_p]
 	_BrLib.BrPixelmapLoad.restype = c_void_p
