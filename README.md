@@ -3,7 +3,7 @@
 Experimental Python wrapper for BRender using `ctypes`.
 
 The current `libbrender.dll` and `libbrender.so` in this repository were built from
-[BRender commit 7c56e86](https://github.com/BlazingRenderer/BRender/commit/7c56e86).
+[BRender commit f805651](https://github.com/BlazingRenderer/BRender/commit/f805651).
 
 ## License
 
