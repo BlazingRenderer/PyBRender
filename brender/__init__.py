@@ -124,4 +124,4 @@ def ModelSave(filename, m):
 def ModelLoad(filename):
 	_BrLib.BrModelLoad.argtypes = [c_char_p]
 	_BrLib.BrModelLoad.restype = POINTER(model)
-	return _BrLib.BrPixelmapLoad(CSTR(filename))
+	return _BrLib.BrModelLoad(CSTR(filename))

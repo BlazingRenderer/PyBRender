@@ -50,5 +50,10 @@ Br.ModelSave("test4.dat", m)
 # free it
 Br.ModelFree(m)
 
+# load a model
+m = Br.ModelLoad("cube.dat")
+print(m.contents.identifier)
+Br.ModelFree(m)
+
 # shutdown
 Br.End()
