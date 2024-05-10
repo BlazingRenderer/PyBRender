@@ -5,6 +5,37 @@ Experimental Python wrapper for BRender using `ctypes`.
 The current `libbrender.dll` and `libbrender.so` in this repository were built from
 [BRender commit f805651](https://github.com/BlazingRenderer/BRender/commit/f805651).
 
+## Suggested Usage
+
+```python
+import os
+import brender as Br
+
+if os.name == "nt":
+	lib = "libbrender.dll"
+else:
+	lib = "libbrender.so"
+
+# setup library path
+lib = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + lib
+
+# startup brender
+Br.Begin(lib)
+
+# allocate a model
+mdl = Br.ModelAllocate("cube", 8, 12)
+
+# do something with the created model here
+mdl.contents.identifier = Br.CSTR("cube")
+
+# save to disk, then free
+Br.ModelSave("cube.dat", mdl)
+Br.ModelFree(mdl)
+
+# shutdown brender
+Br.End()
+```
+
 ## License
 
 MIT License
