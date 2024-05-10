@@ -26,58 +26,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-from ctypes import *
+import os
+import brender as Br
 
-from brender.vector import *
+# library name
+if os.name == "nt":
+	libname = "libbrender.dll"
+else:
+	libname = "libbrender.so"
 
-# vertex
-class vertex(Structure):
-	_fields_ = [
-		("p", vector3),
-		("map", vector2),
-		("index", c_ubyte),
-		("red", c_ubyte),
-		("grn", c_ubyte),
-		("blu", c_ubyte),
-		("_pad0", c_ushort),
-		("n", vector3)
-	]
+# make path absolute
+libname = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + libname
 
-# face
-class face(Structure):
-	_fields_ = [
-		("vertices", c_ushort),
-		("smoothing", c_ushort),
-		("material", c_void_p),
-		("index", c_ubyte),
-		("red", c_ubyte),
-		("grn", c_ubyte),
-		("blu", c_ubyte),
-		("flags", c_ubyte),
-		("_pad0", c_ubyte),
-		("_pad1", c_uint),
-		("n", vector3),
-		("d", c_float)
-	]
+# startup
+Br.Begin(libname)
 
-# model
-class model(Structure):
-	_fields_ = [
-		("_reserved", c_void_p),
-		("identifier", c_char_p),
-		("vertices", POINTER(vertex)),
-		("faces", POINTER(face)),
-		("nvertices", c_ushort),
-		("nfaces", c_ushort),
-		("pivot", vector3),
-		("flags", c_ushort),
-		("custom", c_void_p),
-		("user", c_void_p),
-		("crease_angle", c_float),
-		("radius", c_float),
-		("bounds", bounds3),
-		("prepared", c_void_p),
-		("stored", c_void_p),
-		("nprimitive_lists", c_ushort),
-		("primitive_list", c_void_p)
-	]
+# allocate a model
+m = Br.ModelAllocate("cube", 8, 12)
+
+# save it
+Br.ModelSave("test4.dat", m)
+
+# free it
+Br.ModelFree(m)
+
+# shutdown
+Br.End()

@@ -75,25 +75,53 @@ def End():
 # allocate
 def PixelmapAllocate(pm_type, width, height, pixels, flags):
 	_BrLib.BrPixelmapAllocate.argtypes = [c_ubyte, c_int, c_int, c_void_p, c_int]
-	_BrLib.BrPixelmapAllocate.restype = c_void_p
+	_BrLib.BrPixelmapAllocate.restype = POINTER(pixelmap)
 	if type(pixels) == "bytes":
 		pixels = create_string_buffer(pixels, len(pixels))
-	pm = _BrLib.BrPixelmapAllocate(pm_type, width, height, pixels, flags)
-	return cast(pm, POINTER(pixelmap))
+	return _BrLib.BrPixelmapAllocate(pm_type, width, height, pixels, flags)
 
 # free
-def PixelmapFree(pixelmap):
-	_BrLib.BrPixelmapFree.argtypes = [c_void_p]
-	_BrLib.BrPixelmapFree(pixelmap)
+def PixelmapFree(pm):
+	_BrLib.BrPixelmapFree.argtypes = [POINTER(pixelmap)]
+	_BrLib.BrPixelmapFree(pm)
 
 # save
-def PixelmapSave(filename, pixelmap):
-	_BrLib.BrPixelmapSave.argtypes = [c_char_p, c_void_p]
-	_BrLib.BrPixelmapSave(CSTR(filename), pixelmap)
+def PixelmapSave(filename, pm):
+	_BrLib.BrPixelmapSave.argtypes = [c_char_p, POINTER(pixelmap)]
+	_BrLib.BrPixelmapSave.restype = c_uint
+	return _BrLib.BrPixelmapSave(CSTR(filename), pm)
 
 # load
 def PixelmapLoad(filename):
 	_BrLib.BrPixelmapLoad.argtypes = [c_char_p]
-	_BrLib.BrPixelmapLoad.restype = c_void_p
-	pm = _BrLib.BrPixelmapLoad(CSTR(filename))
-	return cast(pm, POINTER(pixelmap))
+	_BrLib.BrPixelmapLoad.restype = POINTER(pixelmap)
+	return _BrLib.BrPixelmapLoad(CSTR(filename))
+
+####################################################
+#
+# models
+#
+####################################################
+
+# allocate
+def ModelAllocate(name, nvertices, nfaces):
+	_BrLib.BrModelAllocate.argtypes = [c_char_p, c_int, c_int]
+	_BrLib.BrModelAllocate.restype = POINTER(model)
+	return _BrLib.BrModelAllocate(CSTR(name), nvertices, nfaces)
+
+# free
+def ModelFree(m):
+	_BrLib.BrModelFree.argtypes = [POINTER(model)]
+	_BrLib.BrModelFree(m)
+
+# save
+def ModelSave(filename, m):
+	_BrLib.BrModelSave.argtypes = [c_char_p, POINTER(model)]
+	_BrLib.BrModelSave.restype = c_uint
+	return _BrLib.BrModelSave(CSTR(filename), m)
+
+# load
+def ModelLoad(filename):
+	_BrLib.BrModelLoad.argtypes = [c_char_p]
+	_BrLib.BrModelLoad.restype = POINTER(model)
+	return _BrLib.BrPixelmapLoad(CSTR(filename))
