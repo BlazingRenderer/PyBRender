@@ -33,6 +33,7 @@ from brender.matrix import *
 from brender.pixelmap import *
 from brender.model import *
 from brender.material import *
+from brender.error import *
 
 ####################################################
 #
@@ -73,6 +74,18 @@ def End():
 	global _BrLib
 	_BrLib.BrV1dbEndWrapper()
 	_BrLib = None
+
+####################################################
+#
+# misc
+#
+####################################################
+
+# get error string
+def StrError(error):
+	_BrLib.BrStrError.argtypes = [c_uint]
+	_BrLib.BrStrError.restype = c_char_p
+	return _BrLib.BrStrError(error)
 
 ####################################################
 #
