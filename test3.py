@@ -28,7 +28,6 @@ SOFTWARE.
 
 import os
 import brender as Br
-from ctypes import create_string_buffer
 
 # library name
 if os.name == "nt":
@@ -45,13 +44,13 @@ Br.Begin(libname)
 # an image
 width = 32
 height = 32
-pixels = create_string_buffer(b'\xFF\x00\x00' * width * height)
+pixels = b'\xFF\x00\x00' * width * height
 
 # allocate a pixelmap
 pm = Br.PixelmapAllocate(Br.PMT_RGB_888, width, height, pixels, Br.PMAF_NORMAL)
 
 # set identifier
-pm.contents.identifier = Br._cstr("test3")
+pm.contents.identifier = Br.CSTR("test3")
 
 # save it
 Br.PixelmapSave("test3.pix", pm)
