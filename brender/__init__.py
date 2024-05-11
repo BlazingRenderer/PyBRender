@@ -75,7 +75,8 @@ def Begin(libname="brender"):
 
 def End():
 	global __BrLib
-	__BrLib.BrV1dbEndWrapper()
+	if __BrLib != None:
+		__BrLib.BrV1dbEndWrapper()
 	__BrLib = None
 
 ####################################################
