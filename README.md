@@ -3,7 +3,7 @@
 Experimental Python wrapper for BRender using `ctypes`.
 
 The files `libbrender.dll` and `libbrender.so` in this repository were built from
-[BRender commit 6bfa0dc](https://github.com/BlazingRenderer/BRender/commit/6bfa0dc).
+[BRender commit faf0959](https://github.com/BlazingRenderer/BRender/commit/faf0959).
 
 Currently, you can only allocate/free/load/save models, pixelmaps, and materials.
 Their fields should be properly editable, allowing for scriptable BRender asset
